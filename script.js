@@ -79,7 +79,7 @@ function checkIPv6(s) {
     }
    
     return true
-  }
+}
 
 // Checks a given string and determines which artifact it is
 // Returns the artifact type as a string (matches ARTIFACTS and PATHS key)
@@ -168,7 +168,6 @@ const query = (selected) => {
     const urls = buildUrls(artifactType, selected)
     console.log("URLs: \n", urls)
 }
-
 
 const testBadInput = "asdlkfjda;l"
 const testDomain = "google.com"

@@ -1,0 +1,14 @@
+{
+    "manifest_version": "1",
+    "name": "osinter",
+    "description": "Customizable OSINT search tool",
+    "version": "",
+    "author": "",
+    "background": {
+        "scripts": ["script.js"]
+    },
+    "permissions": [
+        "contextMenus",
+        "storage"
+    ]
+}
