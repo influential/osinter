@@ -2,7 +2,11 @@
 
 ## Customizable OSINT tool for quick artifact lookup
 
-### Chome Webstore: [`link`]
+
+
+### Webstore: [`link`]
+
+#### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `osinter` to simultaneously search multiple threat feeds. 
 
 ### `Input your own sources`
 ![customize](img/customize.png)
