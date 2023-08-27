@@ -76,8 +76,6 @@ const displaySettings = () => {
             }
         }
     })
-
-
 }
 
 // Extracts the new sources added after pressing the + button
@@ -159,7 +157,6 @@ const storeSettings = () => {
     })
         }
     })
-    
 }
 
 // Create an input field that the user can input a new URL after hitting the add button

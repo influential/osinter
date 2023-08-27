@@ -92,8 +92,6 @@ const buildUrls = async (artifactType, artifactValue) => {
         chrome.windows.create({ focused: true, url: urls })
     })
     return urls
-    
-
 }
 
 // Whenever osinter is chosen from context menu:

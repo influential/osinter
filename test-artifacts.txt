@@ -1,0 +1,7 @@
+Invalid= "asdlkfjda"
+Domain = "google.com"
+IPv4 = "142.250.81.238"
+IPv6 = "2001:db8:3333:4444:5555:6666:7777:8888"
+MD5 = "dba3e6449e97d4e3df64527ef7012a10"
+SHA1 = "f66a592d23067c6eff15356f874e5b61ea4df4b5"
+SHA256 = "e0c662d10b852b23f2d8a240afc82a72b099519fa71cddf9d5d0f0be08169b6e"
