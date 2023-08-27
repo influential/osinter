@@ -1,57 +1,27 @@
 // Stores base URL's for each artifact type's sources
 let ARTIFACTS = {
     "domain": [
-        "https://virustotal.com/", 
-        "https://talosintelligence.com/",
-        "https://exchange.xforce.ibmcloud.com/",
-        "https://www.abuseipdb.com/",
-        "https://otx.alienvault.com/"
+        "https://virustotal.com/gui/search/", 
+        "https://talosintelligence.com/reputation_center/lookup?search=",
+        "https://exchange.xforce.ibmcloud.com/url/",
+        "https://www.abuseipdb.com/check/",
+        "https://otx.alienvault.com/indicator/domain/"
     ],
     "ip": [
-        "https://virustotal.com/", 
-        "https://talosintelligence.com/", 
-        "https://exchange.xforce.ibmcloud.com/",
+        "https://virustotal.com/gui/search/", 
+        "https://talosintelligence.com/reputation_center/lookup?search=", 
+        "https://exchange.xforce.ibmcloud.com/url/",
         "https://ipinfo.io/",
-        "https://www.abuseipdb.com/",
-        "https://otx.alienvault.com/"
+        "https://www.abuseipdb.com/check/",
+        "https://otx.alienvault.com/indicator/ip/"
         // Add Spur
     ],
     "hash": [
-        "https://virustotal.com/",
-        "https://talosintelligence.com/",
-        "https://exchange.xforce.ibmcloud.com/",
-        "https://www.hybrid-analysis.com/",
-        "https://otx.alienvault.com/",
+        "https://virustotal.com/gui/search/",
+        "https://exchange.xforce.ibmcloud.com/malware/",
+        "https://www.hybrid-analysis.com/search?query=",
+        "https://otx.alienvault.com/indicator/file/",
     ],
-}
-
-// Stores the URL paths for searching based on artifact type
-// Each list is in the same order as the ARTIFACTS list
-// Includes entire search path up to either an equals sign or forward slash 
-// Assumes there is nothing after the input search artifact
-let PATHS = {
-    "domain": [
-        "gui/domain/", 
-        "reputation_center/lookup?search=",
-        "url/",
-        "check/",
-        "indicator/domain/"
-    ],
-    "ip": [
-        "gui/ip/",
-        "reputation_center/lookup?search=",
-        "ip/",
-        "",
-        "check/",
-        "indicator/ip/"
-    ],
-    "hash": [
-        "gui/file/",
-        "reputation_center/lookup?search=",
-        "malware/",
-        "search?query=",
-        "indicator/file/"
-    ]
 }
 
 // TODO: allow custom regex that the user inputs, use these as default
@@ -126,37 +96,57 @@ const validateSingleMatch = (results) => {
 }
 
 // Builds a URL to search for the artifactValue based on the artifactType (assumes valid type)
-const buildUrls = (artifactType, artifactValue) => {
-    const baseURLs = ARTIFACTS[artifactType]
-    const searchPaths = PATHS[artifactType]
+const buildUrls = async (artifactType, artifactValue) => {
+    // let types = {}
+    console.log(artifactType)
     let urls = []
     let url = ""
-    let base = ""
-    let path = ""
+    let searchPath = ""
+    let searchURLs = []
 
-    for (let i=0; i<baseURLs.length; i++) {
-        base = baseURLs[i]
-        path = searchPaths[i]
-        url = `${base}${path}${artifactValue}`
-        urls.push(url)
-        // console.log(url)
-    }
+    await chrome.storage.sync.get('osinterSettings', (settings) => {
+        const types = settings.osinterSettings
+        console.log(types)
 
+        console.log("artifactType: ", artifactType)
+    
+        searchURLs = types[artifactType]
+
+        // console.log("searchURLS: ", searchURLs)
+    
+        // const searchURLs = ARTIFACTS[artifactType]
+        
+    
+        for (let i=0; i<searchURLs.length; i++) {
+            searchPath = searchURLs[i]
+            url = `${searchPath}${artifactValue}`
+            urls.push(url)
+        }
+    
+        console.log("builtURLs: ", urls)
+
+        chrome.windows.create({ focused: true, url: urls })
+
+        
+    })
     return urls
+    
+
 }
 
-// Called on highlight events?
-const query = (selected) => {
+// Whenever osinter is chosen from context menu:
+// validate selection, generate usable urls, spawn new window, spawn a tab for each url
+const query = async (selected) => {
     console.log("Checking")
     const artifactType = checkSelectedText(selected) // Determine what kind of artifact the highlighted text is
 
     switch(artifactType) {
         case -1:
             console.log("Error: more than one artifact type matched")
-            return
+            return -1
         case -2:
             console.log("No matches found, do not display in context menu")
-            return
+            return -2
         case undefined:
             console.log("Error: error parsing highlighted text")
             break
@@ -165,19 +155,23 @@ const query = (selected) => {
       }
 
     console.log("type: ", artifactType)
-    const urls = buildUrls(artifactType, selected)
+    const urls = await buildUrls(artifactType, selected)
     console.log("URLs: \n", urls)
 }
 
-const testBadInput = "asdlkfjda;l"
-const testDomain = "google.com"
-const testIPv4 = "142.250.81.238"
-const testIPv6 = "2001:db8:3333:4444:5555:6666:7777:8888"
-const testHashMD5 = "dba3e6449e97d4e3df64527ef7012a10"
-const testHashSHA1 = "f66a592d23067c6eff15356f874e5b61ea4df4b5"
-const testHashSHA256 = "e0c662d10b852b23f2d8a240afc82a72b099519fa71cddf9d5d0f0be08169b6e"
+// Listen for highlighted text, if found add osinter to context menu
+chrome.runtime.onInstalled.addListener(async () => {
+    chrome.contextMenus.create({
+        id: "osinter",
+        title: "osinter",
+        type: 'normal',
+        contexts: ['selection'],
+    });
+});
 
-const selected = testDomain // Highlighted text in the browser
-
-
-query(selected)
+// Listen for when osinter is selected from context menu
+chrome.contextMenus.onClicked.addListener(async (item, tab) => {
+    const selected = item.selectionText
+    console.log("Highlighted: ", selected)
+    await query(selected)   
+});

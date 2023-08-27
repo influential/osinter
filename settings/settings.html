@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>osinter</title>
+        <link rel="stylesheet" href="settings.css">
+    </head>
+    <body>
+        <div class="container">
+            <form>
+                <div class="save" id="save-btn">
+                    <button type="button" value="save">Save changes</button>
+                </div>
+                <div class="container-artifacts">
+                    <div class="artifact-type">
+                        <div class="top-type">
+                            <h2>Domains</h2>
+                            <button type="button" id="add-domain" class="add-btn">+</button>
+                        </div>
+                        <ui id="url-domain-list">
+                        </ui>
+                    </div>
+                    <div class="artifact-type">
+                        <div class="top-type">
+                            <h2>IP's</h2>
+                            <button type="button" id="add-ip" class="add-btn">+</button>
+                        </div>
+                        <ui id="url-ip-list">
+                        </ui>
+                    </div>
+                    <div class="artifact-type">
+                        <div class="top-type">
+                            <h2>Hashes</h2>
+                            <button type="button" id="add-hash" class="add-btn">+</button>
+                        </div>
+                        <ui id="url-hash-list">
+                        </ui>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </body>
+    <script src="settings.js"></script>
+</html>
