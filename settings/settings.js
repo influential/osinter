@@ -1,3 +1,4 @@
+// Default threat feeds
 let DEFAULTS = {
     "domain": [
         "https://virustotal.com/gui/search/", 
@@ -23,8 +24,6 @@ let DEFAULTS = {
     ],
 }
 
-
-
 // Create a list item element for a single url and append it to the supplied type's list
 const addToList = (typeID, url, idx) => {
     const del = document.createElement('button')
@@ -45,6 +44,7 @@ const addToList = (typeID, url, idx) => {
     document.getElementById(typeID).appendChild(li)
 }
 
+// Populates the ui elements with each source for each artifact type
 const displaySettings = () => {
     chrome.storage.sync.get('osinterSettings', (settings) => {
         console.log("Settings:\n", settings)
@@ -207,6 +207,7 @@ const handleDeleteSource = (e) => {
     e.target.name += `-kill-${idx}`
 }
 
+// Install listeners for buttons and page load
 document.addEventListener('DOMContentLoaded', displaySettings)
 document.getElementById('add-domain').addEventListener('click', handleAddSource)
 document.getElementById('add-ip').addEventListener('click', handleAddSource)

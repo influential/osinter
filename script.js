@@ -1,29 +1,3 @@
-// Stores base URL's for each artifact type's sources
-let ARTIFACTS = {
-    "domain": [
-        "https://virustotal.com/gui/search/", 
-        "https://talosintelligence.com/reputation_center/lookup?search=",
-        "https://exchange.xforce.ibmcloud.com/url/",
-        "https://www.abuseipdb.com/check/",
-        "https://otx.alienvault.com/indicator/domain/"
-    ],
-    "ip": [
-        "https://virustotal.com/gui/search/", 
-        "https://talosintelligence.com/reputation_center/lookup?search=", 
-        "https://exchange.xforce.ibmcloud.com/url/",
-        "https://ipinfo.io/",
-        "https://www.abuseipdb.com/check/",
-        "https://otx.alienvault.com/indicator/ip/"
-        // Add Spur
-    ],
-    "hash": [
-        "https://virustotal.com/gui/search/",
-        "https://exchange.xforce.ibmcloud.com/malware/",
-        "https://www.hybrid-analysis.com/search?query=",
-        "https://otx.alienvault.com/indicator/file/",
-    ],
-}
-
 // TODO: allow custom regex that the user inputs, use these as default
 const REGEX_DOMAIN = /^(?!([0-9]{1,3}\.){3}[0-9]{1,3}$)(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63})$/
 const REGEX_IP = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
@@ -62,10 +36,10 @@ const checkSelectedText = (selected) => {
     const isSHA256 = REGEX_HASH_SHA256.test(selected)
 
     const resultList = [isDomain, isIPv4, isIPv6, isMD5, isSHA1, isSHA256]
-    console.log("results list: ", resultList)
     const resultMap = { 0: "domain", 1: "ip", 2: "ip", 3: "hash", 4: "hash", 5: "hash" }
     result = findResult(resultList, resultMap)
-    console.log("result: ", result)
+    // console.log("results list: ", resultList)
+    // console.log("result: ", result)
 
     return result === -1 ? -1 : result  
 }
@@ -79,7 +53,7 @@ const findResult = (results, map) => {
     results.forEach((outcome, i) => {
         if (i > results.length) { return -2 } // No matches were found
         if (outcome === true) {
-            console.log("map[i]: ", map[i])
+            // console.log("map[i]: ", map[i])
             result = map[i]
         }
     })
@@ -89,16 +63,14 @@ const findResult = (results, map) => {
 // Checks the results of the regex and checkIPv6 function to ensure there is only one match
 const validateSingleMatch = (results) => {
     let seen = 0
-    // results.forEach((val) => { if (val === true) { seen += 1 } })
     results.forEach((val) => { val === true ? seen += 1 : null })
     if (seen === 0) { return -2 }
     return seen>1 && seen>0 ? false : true
 }
 
 // Builds a URL to search for the artifactValue based on the artifactType (assumes valid type)
+// Spawn a new window and a new tab for each url
 const buildUrls = async (artifactType, artifactValue) => {
-    // let types = {}
-    console.log(artifactType)
     let urls = []
     let url = ""
     let searchPath = ""
@@ -106,28 +78,18 @@ const buildUrls = async (artifactType, artifactValue) => {
 
     await chrome.storage.sync.get('osinterSettings', (settings) => {
         const types = settings.osinterSettings
-        console.log(types)
-
-        console.log("artifactType: ", artifactType)
+        // console.log(types)
+        // console.log("artifactType: ", artifactType)
     
         searchURLs = types[artifactType]
-
-        // console.log("searchURLS: ", searchURLs)
-    
-        // const searchURLs = ARTIFACTS[artifactType]
-        
     
         for (let i=0; i<searchURLs.length; i++) {
             searchPath = searchURLs[i]
             url = `${searchPath}${artifactValue}`
             urls.push(url)
         }
-    
-        console.log("builtURLs: ", urls)
-
+        // console.log("builtURLs: ", urls)
         chrome.windows.create({ focused: true, url: urls })
-
-        
     })
     return urls
     
@@ -137,7 +99,6 @@ const buildUrls = async (artifactType, artifactValue) => {
 // Whenever osinter is chosen from context menu:
 // validate selection, generate usable urls, spawn new window, spawn a tab for each url
 const query = async (selected) => {
-    console.log("Checking")
     const artifactType = checkSelectedText(selected) // Determine what kind of artifact the highlighted text is
 
     switch(artifactType) {
@@ -145,16 +106,16 @@ const query = async (selected) => {
             console.log("Error: more than one artifact type matched")
             return -1
         case -2:
-            console.log("No matches found, do not display in context menu")
+            console.log("No matches found, do nothing")
             return -2
         case undefined:
             console.log("Error: error parsing highlighted text")
             break
         default:
-            console.log("Found artifact type")
+            console.log("Artifact Type: ", artifactType)
+            break
       }
 
-    console.log("type: ", artifactType)
     const urls = await buildUrls(artifactType, selected)
     console.log("URLs: \n", urls)
 }
@@ -172,6 +133,6 @@ chrome.runtime.onInstalled.addListener(async () => {
 // Listen for when osinter is selected from context menu
 chrome.contextMenus.onClicked.addListener(async (item, tab) => {
     const selected = item.selectionText
-    console.log("Highlighted: ", selected)
+    console.log("Checking: ", selected)
     await query(selected)   
 });
