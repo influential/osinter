@@ -3,14 +3,14 @@ let DEFAULTS = {
     "domain": [
         "https://virustotal.com/gui/search/", 
         "https://talosintelligence.com/reputation_center/lookup?search=",
-        "https://exchange.xforce.ibmcloud.com/url/",
+        "https://exchange.xforce.ibmcloud.com/search/",
         "https://www.abuseipdb.com/check/",
         "https://otx.alienvault.com/indicator/domain/"
     ],
     "ip": [
         "https://virustotal.com/gui/search/", 
         "https://talosintelligence.com/reputation_center/lookup?search=", 
-        "https://exchange.xforce.ibmcloud.com/url/",
+        "https://exchange.xforce.ibmcloud.com/search/",
         "https://ipinfo.io/",
         "https://www.abuseipdb.com/check/",
         "https://otx.alienvault.com/indicator/ip/"
@@ -18,7 +18,7 @@ let DEFAULTS = {
     ],
     "hash": [
         "https://virustotal.com/gui/search/",
-        "https://exchange.xforce.ibmcloud.com/malware/",
+        "https://exchange.xforce.ibmcloud.com/search/",
         "https://www.hybrid-analysis.com/search?query=",
         "https://otx.alienvault.com/indicator/file/",
     ],
