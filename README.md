@@ -1,6 +1,6 @@
-# <center>![logo](images/128x128.png)</center>
-#  <center>**Osinter**</center>
-## <center>Customizable OSINT tool for quick artifact lookup</center>
+# <div align="center">![logo](images/128x128.png)</div>
+#  <div align="center">**Osinter**</div>
+## Customizable OSINT tool for quick artifact lookup
 ### Webstore: [`link`]
 
 #### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `Osinter` to simultaneously search multiple threat feeds. 
