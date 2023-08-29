@@ -1,17 +1,14 @@
-# **osinter**
-
-## Customizable OSINT tool for quick artifact lookup
-
-
-
+# <center>![logo](images/128x128.png)</center>
+#  <center>**Osinter**</center>
+## <center>Customizable OSINT tool for quick artifact lookup</center>
 ### Webstore: [`link`]
 
-#### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `osinter` to simultaneously search multiple threat feeds. 
+#### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `Osinter` to simultaneously search multiple threat feeds. 
 
 ### `Settings UI | Input Custom Threat Feeds`
-![customize](img/customize.png)
+![customize](images/customize.png)
 
 ### `Settings UI | Default Threat Feeds`
-![domains](img/domains.png)
-![ips](img/ips.png)
-![hashes](img/hashes.png)
+![domains](images/domains.png)
+![ips](images/ips.png)
+![hashes](images/hashes.png)

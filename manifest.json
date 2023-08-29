@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "osinter",
-    "description": "Customizable OSINT search tool",
-    "version": "1.0.0",
+    "name": "Osinter",
+    "description": "Customizable OSINT tool for quick artifact lookup",
+    "version": "1.0.1",
     "background": {
         "service_worker": "script.js"
     },

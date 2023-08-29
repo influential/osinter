@@ -122,7 +122,7 @@ const query = async (selected) => {
 chrome.runtime.onInstalled.addListener(async () => {
     chrome.contextMenus.create({
         id: "osinter",
-        title: "osinter",
+        title: "Osinter",
         type: 'normal',
         contexts: ['selection'],
     });
