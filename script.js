@@ -110,12 +110,12 @@ const query = async (selected) => {
             console.log("Error: error parsing highlighted text")
             break
         default:
-            console.log("Artifact Type: ", artifactType)
+            // console.log("Artifact Type: ", artifactType)
             break
       }
 
     const urls = await buildUrls(artifactType, selected)
-    console.log("URLs: \n", urls)
+    // console.log("URLs: \n", urls)
 }
 
 // Listen for highlighted text, if found add osinter to context menu
@@ -131,6 +131,6 @@ chrome.runtime.onInstalled.addListener(async () => {
 // Listen for when osinter is selected from context menu
 chrome.contextMenus.onClicked.addListener(async (item, tab) => {
     const selected = item.selectionText
-    console.log("Checking: ", selected)
+    // console.log("Checking: ", selected)
     await query(selected)   
 });

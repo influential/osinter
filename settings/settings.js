@@ -47,19 +47,19 @@ const addToList = (typeID, url, idx) => {
 // Populates the ui elements with each source for each artifact type
 const displaySettings = () => {
     chrome.storage.sync.get('osinterSettings', (settings) => {
-        console.log("Settings:\n", settings)
+        // console.log("Settings:\n", settings)
 
         // If there are no stored settings, store the defaults
         if (Object.keys(settings).length === 0) { 
             chrome.storage.sync.set({"osinterSettings": DEFAULTS}, (newSettings) => {
                 // location.reload()
-                console.log("New Settings:", newSettings)
+                // console.log("New Settings:", newSettings)
             })
         } else {
             // Display the loaded settings
             const types = settings['osinterSettings']
 
-            console.log("TYPES:", types)
+            // console.log("TYPES:", types)
 
             let domains = types.domain
             let ips = types.ip
@@ -83,7 +83,7 @@ const getNewSources = () => {
     let domains = document.getElementsByName("url-domain")
     let ips = document.getElementsByName("url-ip")
     let hashes = document.getElementsByName("url-hash")
-    console.log(domains)
+    // console.log(domains)
     return {
         "domains": domains,
         "ips": ips,
@@ -94,22 +94,22 @@ const getNewSources = () => {
 // Combines the current sources with the newly added sources
 const addNewSources = (settings, newSources) => {
 
-    console.log("domains: ", settings)
+    // console.log("domains: ", settings)
 
     newSources.domains.forEach((s) => {
-        console.log(s.value)
+        // console.log(s.value)
         if (s.value !== "") {
             settings.domain.push(s.value)
         }
     })
     newSources.ips.forEach((s) => {
-        console.log(s.value)
+        // console.log(s.value)
         if (s.value !== "") {
             settings.ip.push(s.value)
         }
     })
     newSources.hashes.forEach((s) => {
-        console.log(s.value)
+        // console.log(s.value)
         if (s.value !== "") {
             settings.hash.push(s.value)
         }
@@ -122,7 +122,7 @@ const addNewSources = (settings, newSources) => {
 const deleteSources = (settings) => {
     let newSettings = settings.osinterSettings
     const sourcesToKill = document.getElementsByClassName('kill')
-    console.log("Killing:", sourcesToKill)
+    // console.log("Killing:", sourcesToKill)
     let delIdx = 0
     let type = ''
     for (source of sourcesToKill) {
@@ -136,23 +136,23 @@ const deleteSources = (settings) => {
 // Persists the settings to chrome.storage.sync
 const storeSettings = () => {
     chrome.storage.sync.get('osinterSettings', (settings) => {
-        console.log("Settings before store:\n", settings)
+        // console.log("Settings before store:\n", settings)
 
         // If there are no stored settings, store the defaults
         if (Object.keys(settings).length === 0) { 
             chrome.storage.sync.set({ "osinterSettings": DEFAULTS}, (newSettings) => {
-                console.log("New Settings:", newSettings)
+                // console.log("New Settings:", newSettings)
             })
         } else { // Append the new sources to each artifact type's list
-            console.log("Saving")
+            // console.log("Saving")
             let settingsAfterDelete = deleteSources(settings) // remvove any deleted sources
             const newSources = getNewSources() // collect any new sources
             let newSettings = addNewSources(settingsAfterDelete, newSources) // combine all updates
-            console.log("New Settings-raw:", newSettings.osinterSettings)
+            // console.log("New Settings-raw:", newSettings.osinterSettings)
 
             chrome.storage.sync.set({ "osinterSettings": newSettings}, (settings) => {
-            console.log("Old settings", settings)
-            console.log("New Settings:", newSettings.osinterSettings)
+            // console.log("Old settings", settings)
+            // console.log("New Settings:", newSettings.osinterSettings)
             location.reload()
     })
         }
@@ -175,7 +175,7 @@ const addInputToList = (type) => {
     // Append the li element containing the input to the type list
     document.getElementById(`url-${type}-list`).appendChild(li) 
     
-    console.log(`New ${type} added`)
+    // console.log(`New ${type} added`)
 }
 
 // Determine which add button was clicked and add an input li element to that type's list 
@@ -195,11 +195,11 @@ const handleAddSource = (e) => {
 
 // When a source is deleted, modify its class name to hide it, pass type and index for later processing
 const handleDeleteSource = (e) => {
-    console.log("Delete")
+    // console.log("Delete")
     const idx = e.target.name.split('-')[1]
     const type = e.target.name.split('-')[2]
-    console.log(e)
-    console.log(e.target.parentNode)
+    // console.log(e)
+    // console.log(e.target.parentNode)
     e.target.parentNode.className += `kill ${idx} ${type}`
     e.target.name += `-kill-${idx}`
 }
