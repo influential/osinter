@@ -5,6 +5,8 @@
 
 #### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `Osinter` to simultaneously search multiple threat feeds. 
 
+#### Heavily inspired by [OSINT=*](https://github.com/AdamMOdell/OSINT-equals-star)
+
 ### `Input Custom Threat Feeds`
 ![customize](images/customize.png)
 
