@@ -52,7 +52,7 @@ const displaySettings = () => {
         // If there are no stored settings, store the defaults
         if (Object.keys(settings).length === 0) { 
             chrome.storage.sync.set({"osinterSettings": DEFAULTS}, (newSettings) => {
-                // location.reload()
+                location.reload()
                 // console.log("New Settings:", newSettings)
             })
         } else {
