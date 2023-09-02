@@ -5,10 +5,10 @@
 
 #### Chrome extension that enables quick lookup of artifacts. Highlight your artifact, right click, and select `Osinter` to simultaneously search multiple threat feeds. 
 
-### `Settings | Input Custom Threat Feeds`
+### `Input Custom Threat Feeds`
 ![customize](images/customize.png)
 
-### `Settings | Default Threat Feeds`
+### `Default Threat Feeds`
 ![domains](images/domains.png)
 ![ips](images/ips.png)
 ![hashes](images/hashes.png)
